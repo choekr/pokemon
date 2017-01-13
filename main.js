@@ -25,13 +25,13 @@ var img_str = "";
 $(document).ready(function(){  //button to generate random card
   $("#submit").click(function() {
     var id = getRandomNumber();
-    // if (html_str == null) {
-    //     img_str = "<img src = 'http://pokeapi.co/media/img/" + id + ".png' >";
-    //     html_str = "<h5> http://pokeapi.co/api/v2/pokemon/" + id + "</h5>";
-    // }
+    var card = 'http://pokeapi.co/media/img/' + id + '.png';
     var pokemon = $.ajax({url: "http://pokeapi.co/api/v2/pokemon/" + id, success: function(pokemon){
       hand.push(pokemon.name);
-      
+      imgAddress.push(card);
+
+/* if there are less than 7 (up to 6) cards add card into string, and pass it onto html to display.*/
+
       if (hand.length < 7) {
         img_str += "<img src = 'http://pokeapi.co/media/img/" + id + ".png' >";
         html_str = "";
@@ -45,17 +45,18 @@ $(document).ready(function(){  //button to generate random card
         }
         html_str += "</h5> </div>";
 
+        $('#info').html(html_str);
+        $('#img').html(img_str);
+
         console.log(hand);
 
-      } else {
+/* if maximum number reached for card, show warning statement on html */
+
+      } else { 
         html_str_fullHand = "<h1> You have a full hand </h1>"
         $('#warning').html(html_str_fullHand);
       }
     }});
     
-    $('#info').html(html_str);
-    $('#img').html(img_str);
-    var card = 'http://pokeapi.co/media/img/' + id + '.png';
-    imgAddress.push(card);
   });
 })
